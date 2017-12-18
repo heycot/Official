@@ -1,0 +1,115 @@
+      <%- include ../../../partials/admin/dashboard -%>
+      <div class="content-wrapper py-3">
+        <div class="container-fluid">
+          <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-table"></i>
+                  Edit
+              </div>
+              <%if(message == 1) {%>
+                <div id="fadeOut" class="alert alert-danger" style="height:47px">
+                  <strong>OMG!</strong> Please upload book file
+                </div>
+              <%}%>
+              <%if(message == 2) {%>
+                <div id="fadeOut" class="alert alert-danger" style="height:47px">
+                  <strong>OMG!</strong> Please choose category or series
+                </div>
+              <%}%>
+              <div class="content">
+            <form role="form" action="/admin/book/edit/<%=data.mId%>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="RQbfbXV0U1AWW0hXAyZtuSpIlXCna01KOZKO73ZY">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Book Name</label>
+                        <input type="text" name="bookName" class="form-control border-input" placeholder="Enter book name" value="<%=data.mName%>" required minlength="10" maxlength="100">
+                    </div>
+                </div>
+                <div class="col-md-4" id="divCol">
+                    <div class="form-group" id="categories">
+                        <label>Categories</label>
+                        <select name="categoryId" id="categoryId" class="form-control border-input">
+                              <option value="0">Please choose category</option>
+                              <%categories.forEach(function(item) {%>
+                                <%if(item.mId == data.mCatId){%>
+                                    <option value="<%=item.mId%>" selected><%=item.mName%></option>
+                                <%}%>
+                                <%if(item.mId != data.mCatId){%>
+                                    <option value="<%=item.mId%>"><%=item.mName%></option>
+                                <%}%>
+                              <%});%>
+                        </select>
+                    </div>
+                    <div class="form-group" id="series">
+                        <label>Series</label>
+                        <select name="seriesId" id="seriesId" class="form-control border-input">
+                              <option value="0">Please choose series</option>
+                              <%listSeries.forEach(function(item) {%>
+                                <option value="<%=item.mId%>"><%=item.mName%></option>
+                              <%});%>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2" id="series">
+                  <label>Series</label>
+                  <p><input type="checkbox" name="changeSeries" id="changeSeries">&nbsp; change</p>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="author">Author</label>
+                      <input type="text" name="author" class="form-control border-input" placeholder="Enter author" value="<%=data.mAuthor%>" required minlength="10" maxlength="100">
+                  </div>
+              </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input type="file" name="picture" accept="image/*" class="form-control" placeholder="Choose image" />
+                        <%if(data.mImage == 0) {%>
+                          <img src="/admin/images/no-image.png" style="display:inline" alt="">
+                        <%}%>
+                        <%if(data.mImage != 0) {%>
+                          <img src="/files/images/<%=data.mImage%>" style="width:300px; height:200px; display : inline" alt="">
+                        <%}%>
+                        <p style="display:inline"><input type="checkbox" name="removeImage" id="removeImage" >&nbsp;remove</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>PDF</label>
+                        <input type="file" name="pdf" accept="application/pdf" class="form-control" placeholder="Choose PDF File"/>
+                        <p>&nbsp;&nbsp;&nbsp;<%=data.mFileName%></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="summaryBook">Book Sumary</label>
+                        <textarea name="summaryBook" rows="4" class="form-control border-input ckeditor" placeholder="Summary of book" required="required"><%=data.mSummary%></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" class="btn btn-info btn-fill btn-wd" value="Submit" />
+            </div>
+            <div class="clearfix"></div>
+        </form>
+    </div>
+          </div>
+              <div class="card-footer small text-muted">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <%- include ../../../partials/admin/footer -%>

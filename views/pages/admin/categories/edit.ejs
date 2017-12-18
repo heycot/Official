@@ -1,0 +1,66 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-fw fa-code"></i>
+            Edit
+          </div>
+          <% if(typeof msg !== 'undefined'){%>
+              <h4 id="msg" style="display:none"><%= msg%></h4>
+          <%}else{%>
+              <h4 id="msg" style="display:none"></h4>
+          <%}%>
+          <script type="text/javascript">
+          	var msg = $('#msg').html();
+          	if(msg == "erredit"){
+          		swal ( "Oops" , "Can't update this category" ,  "error" );
+          	}
+            if(msg == "errnull"){
+                swal ( "Oops", "Please enter name", "error");
+            }
+            if(msg == "errexists"){
+          		swal ( "Oops" , "This category is existed" ,  "error" );
+          	}
+            </script>
+          <div class="card-body">
+              <%
+              var id = -1;
+              var name = "";
+              console.log(category);
+              if(typeof category !== 'undefined' &&  category.getMId() !== null){
+                  id = category.getMId();
+                  name = category.getMName();
+                  console.log("id" + id);
+                  console.log("name" + name);
+              }
+             %>
+              <form id="add-post" action="/admin/category/edit?id=<%= id%>" method="post">
+              	<div class="form-group">
+	              	<label>Name</label>
+	              	<input class="form-control" type="text" name="name" value="<%= name%>" />
+              	</div>
+              	<div>
+              		<input class="btn btn-primary" type="submit" name="submit" value="Update" />
+              	</div>
+              </form>
+
+            <script type="text/javascript">
+      				$(document).ready(function() {
+      					$("#add-post").validate({
+      						ignore: [],
+      			            debug: false,
+      						rules: {
+      							name:"required"
+      						},
+      						messages: {
+      							name:"Name is not null"
+      						}
+      					});
+      				});
+      			</script>
+          </div>
+        </div>
+      </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

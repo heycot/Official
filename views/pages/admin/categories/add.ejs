@@ -1,0 +1,80 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-fw fa-code"></i>
+            New Category
+          </div>
+          <% if(typeof msg !== 'undefined'){%>
+              <h4 id="msg" style="display:none"><%= msg%></h4>
+          <%}else{%>
+              <h4 id="msg" style="display:none"></h4>
+          <%}%>
+          <script type="text/javascript">
+          	var msg = $('#msg').html();
+          	if(msg == "erradd"){
+          		swal ( "Oops" , "Can't add category" ,  "error" );
+          	}
+            if(msg == "errnull"){
+          		swal ( "Oops" , "Name of category not null" ,  "error" );
+          	}
+            if(msg == "errlength"){
+          		swal ( "Oops" , "maxlength of category is 50" ,  "error" );
+          	}
+            if(msg == "errexists"){
+          		swal ( "Oops" , "This category is existed" ,  "error" );
+          	}
+          </script>
+          <%
+            var name = "";
+            if(typeof category !== 'undefined' && category !== null){
+                name = category.getMName();
+            }
+          %>
+          <div class="card-body">
+              <form id="add-post" action="/admin/category/add" method="POST" >
+              	<div class="form-group">
+	              	<label>Name</label>
+	              	<input class="form-control" id="txtname" type="text" name="name" value="<%= name%>" placeholder="Name of category"/>
+              	</div>
+                <div class="error"></div>
+              	<div>
+              		<input class="btn btn-primary" type="submit" name="submit" value="Add" />
+              	</div>
+              </form>
+
+            <script type="text/javascript">
+      				$(document).ready(function() {
+      					$("#add-post").validate({
+      						rules: {
+      							name:"required",
+                                maxlength: 50
+      						},
+      						messages: {
+      							name:"This field not null",
+                                maxlength: "maxlength is 50 character"
+      						}
+      					});
+      				});
+                    $(function(){
+                        var $name = $('#txtname');
+                        $.ajax({
+                           type: 'POST',
+                           url: "/admin/category/add",
+                           async: true,
+                           data: req.param('name'),
+                           dataType: 'json',
+                           contentType: 'application/json; charset=utf-8',
+                           success: function (err) {
+                               $err.append('<div>This name already exists</div>');
+                            },
+                           error: function (xhr, ajaxOptions, thrownError) { }
+                       });
+                   }
+      			</script>
+          </div>
+        </div>
+      </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

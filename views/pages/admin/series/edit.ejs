@@ -1,0 +1,84 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-fw fa-code"></i>
+            Edit
+          </div>
+          <% if(typeof msg !== 'undefined'){%>
+              <h4 id="msg" style="display:none"><%= msg%></h4>
+          <%}else{%>
+              <h4 id="msg" style="display:none"></h4>
+          <%}%>
+          <script type="text/javascript">
+          	var msg = $('#msg').html();
+          	if(msg == "erredit"){
+          		swal ( "Oops" , "Can't update this series" ,  "error" );
+          	}
+            if(msg == "errnull"){
+          		swal ( "Oops" , "Name and summary of Series not null" ,  "error" );
+          	}
+            if(msg == "errnamelength"){
+          		swal ( "Oops" , "maxlength of name series is 50" ,  "error" );
+          	}
+            if(msg == "errsummarylength"){
+          		swal ( "Oops" , "maxlength of summary is 1000" ,  "error" );
+              }
+            if(msg == "errexists"){
+                swal ( "Oops" , "This series is existed" ,  "error" );
+            }
+            </script>
+          <div class="card-body">
+              <%
+              var id = -1;
+              var name = "", summary = "";
+              if(typeof series !== 'undefined' &&  series.getMId() !== null){
+                  id = series.getMId();
+                  name = series.getMName();
+                  summary = series.getMSummary();
+              }
+             %>
+              <form id="add-post" action="/admin/series/edit?id=<%= id%>" method="post">
+              	<div class="form-group">
+	              	<label>Name</label>
+	              	<input class="form-control" type="text" name="name" value="<%= name%>" />
+              	</div>
+                <div class="form-group">
+	              	<label>Summary</label>
+	              	<textarea class="form-control" name="summary" rows="15"><%= summary%></textarea>  
+              	</div>
+              	<div>
+              		<input class="btn btn-primary" type="submit" name="submit" value="Update" />
+              	</div>
+              </form>
+
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $("#add-post").validate({
+                        rules: {
+                            name: {
+                                required: true,
+                                maxlength: 50
+                            },
+                            summary: {
+                                required: true
+                            }
+                        },
+                        messages: {
+                            name:{
+                                required: "name not null",
+                                maxlength: "maxlength of name is 50 character"
+                            },
+                            summary: {
+                                required: "summary not null"
+                            }
+                        }
+                    });
+                });
+      			</script>
+          </div>
+        </div>
+      </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

@@ -1,0 +1,113 @@
+  <%- include ../../../partials/admin/dashboard -%>
+      <div class="content-wrapper py-3">
+        <div class="container-fluid">
+          <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-table"></i>
+                  Books Management Table
+              </div>
+                <%if(message == 1) {%>
+                  <div class="alert alert-success">
+                    <strong>Yeah!</strong> You successfully remove
+                  </div>
+                <%}%>
+                <%if(message == 2) {%>
+                  <div class="alert alert-danger">
+                    <strong>Sorry!</strong> You did not successfully remove
+                  </div>
+                <%}%>
+                <%if(message == 3) {%>
+                  <div class="alert alert-success">
+                    <strong>Yeah!</strong> You successfully added
+                  </div>
+                <%}%>
+                <%if(message == 4) {%>
+                  <div class="alert alert-danger">
+                    <strong>Sorry!</strong> You did not successfully add
+                  </div>
+                <%}%>
+                <%if(message == 5) {%>
+                  <div class="alert alert-success">
+                    <strong>Yeah!</strong> You successfully updated
+                  </div>
+                <%}%>
+                <div class="card-body">
+                  <div class="table-responsive">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="table-responsive">
+                          <table class="table table-bordered table-hover" width="100%" id="dataTable" cellspacing="0" style=" table-layout:fixed;">
+                            <thead>
+                            <tr>
+                              <tr class="text-center">
+                                  <th class="text-center">Id</th>
+                                  <th class="text-center">Name</th>
+                                  <th class="text-center">Category</th>
+                                  <th class="text-center">Series</th>
+                                  <th class="text-center">Author</th>
+                                  <th class="text-center">Summary </th>
+                                  <th class="text-center" style="width:3%;">Status</th>
+                                  <th style="width:3%;" class="text-center">Action</th>
+                            </tr>
+                          </thead>
+                            <tbody>
+                                  <%data.forEach(function(item){%>
+                                      <tr class="text-center">
+                                          <td><%=item.mId%></td>
+                                          <td><%=item.mName%></td>
+                                          <td><%=item.mCatName%></td>
+                                          <td><%=item.mSeriesName%></td>
+                                          <td><%=item.mAuthor%></td>
+                                          <td class="more"><%=item.mSummary%></td>
+                                          <td>
+                                            <%
+                                              if(item.mStatus == 0) {
+                                            %>
+                                            <img src="/admin/images/deactive.gif" id="active-<%=item.mId%>" onclick="checkActive(<%=item.mId%>);" />
+                                            <%}%>
+                                            <%if(item.mStatus == 1) {%>
+                                                <img src="/admin/images/active.gif" id="active-<%=item.mId%>" onclick="checkActive(<%=item.mId%>);" />
+                                            <%}%>
+                                          </td>
+                                          <td>
+                                            <a href="/admin/book/detail/<%=item.mId%>" class="fa fa-eye" style="display:inline"></a>
+                                            &nbsp;
+                                            <a href="/admin/book/edit/<%=item.mId%>" class="fa fa-pencil-square-o" style="display:inline"></a>
+                                            &nbsp;
+                                            <a href="/admin/book/delete/<%=item.mId%>" class="fa fa-trash-o" style="display:inline"></a>
+                                          </td>
+                                      </tr>
+                                <%});%>
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                </div>
+              </div>
+              <div class="card-footer small text-muted">
+              </div>
+            </div>
+          </div>
+        </div>
+        <script type="text/javascript">
+          var socket = io("/admin/book");
+          socket.on("index", function(data) {
+              var id = data.id;
+              var path = data.path;
+              $('#active-'+id).attr('src', path);
+          })
+          var message;
+          function checkActive(id) {
+            var data = $("#active-"+id).attr("src").split("/");
+            var name = data.pop();
+            if(name == "active.gif")
+                message = 1;
+            else
+                message = 0;
+            socket.emit("index", {id, message});
+          }
+        </script>
+        <%- include ../../../partials/admin/footer -%>

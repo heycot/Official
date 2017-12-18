@@ -1,0 +1,65 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i>
+          Users
+        </div>
+        <%if(msg !== undefined || msg !== "") {%>
+          <%if(msg == 0) {%>
+            <h5 style="padding-left: 34px;padding-top: 11px;color: red;">Error</h5>
+          <%}%>
+          <%if(msg == 1) {%>
+            <h5 style="padding-left: 34px;padding-top: 11px;color: green;">Add success</h5>
+          <%}%>
+          <%if(msg == 2) {%>
+            <h5 style="padding-left: 34px;padding-top: 11px;color: green;">Edit success</h5>
+          <%}%>
+          <%if(msg == 3) {%>
+            <h5 style="padding-left: 34px;padding-top: 11px;color: green;">Delete success</h5>
+          <%}%>
+          <%if(msg == 4) {%>
+            <h5 style="padding-left: 34px;padding-top: 11px;color: red;">Do not delete admin account!</h5>
+          <%}%>
+        <%}%>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Fullname</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th style="width: 1%;">Task</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(function(item){ %>
+                <tr>
+                  <td><%= item.mUsername%></td>
+                  <td><%= item.mFullname%></td>
+                  <td><%= item.mEmail%></td>
+                  <td><%= item.mRoleName%></td>
+                  <td>
+                      <a title="Edit" href="../../../admin/user/edit/<%= item.mId%>"><i class="fa fa-edit"></i></a>
+                      <%
+                        if(item.mRoleId != 1){
+                      %>
+                      <a title="Delete" onclick="return confirm('Do you want to delete?')" href="../../../admin/user/del/<%= item.mId%>"><i class="fa fa-trash"></i></a>
+                      <%}%>
+                  </td>
+                </tr>
+                <%})%>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">
+          Updated yesterday at 11:59 PM
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

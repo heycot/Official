@@ -1,0 +1,112 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i>
+            Add book
+        </div>
+        <%if(message == 1) {%>
+          <div id="fadeOut" class="alert alert-danger" style="height:47px">
+            <strong>OMG!</strong> Please choose category or series
+          </div>
+        <%}%>
+        <div class="content">
+      <form role="form" action="/admin/book/add" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_token" value="RQbfbXV0U1AWW0hXAyZtuSpIlXCna01KOZKO73ZY">
+      <div class="row">
+          <div class="col-md-6">
+              <div class="form-group">
+                  <label>Book Name</label>
+                  <input required="required" type="text" name="bookName" class="form-control border-input" placeholder="Enter book name" required minlength="10" maxlength="100">
+              </div>
+          </div>
+          <div class="col-md-4" id="divCol">
+              <div class="form-group" id="categories">
+                  <label>Categories</label>
+                  <select name="categoryId" id="categoryId" class="form-control border-input">
+                        <option value="0">Please choose category</option>
+                        <%categories.forEach(function(item) {%>
+                          <option value="<%=item.mId%>"><%=item.mName%></option>
+                        <%});%>
+                  </select>
+              </div>
+              <div class="form-group" id="series">
+                  <label>Series</label>
+                  <select name="seriesId" id="seriesId" class="form-control border-input">
+                        <option value="0">Please choose series</option>
+                        <%listSeries.forEach(function(item) {%>
+                          <option value="<%=item.mId%>"><%=item.mName%></option>
+                        <%});%>
+                  </select>
+              </div>
+          </div>
+          <div class="col-md-2" id="series">
+            <label>Series</label>
+            <p><input required="required" type="checkbox" name="createSeries" id="createSeries">&nbsp; Select</p>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="author">Author</label>
+                <input required="required" type="text" name="author" class="form-control border-input" placeholder="Enter author" required minlength="10" maxlength="100">
+            </div>
+        </div>
+        <div class="col-md-6" id="seriesName">
+            <div class="form-group">
+                <label for="seriesName">Series Name</label>
+                <input required="required" type="text" name="seriesName" class="form-control border-input" placeholder="Enter series name" value="">
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label>Image</label>
+                  <input required="required" type="file" name="picture" accept="image/*" class="form-control" placeholder="Choose image" />
+              </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label>PDF</label>
+                  <input required="required" type="file" name="pdf" accept="application/pdf" class="form-control" placeholder="Choose PDF File" required/>
+              </div>
+          </div>
+      </div>
+
+
+      <div class="row">
+          <div class="col-md-12" id="seriesSumary">
+              <div class="form-group">
+                  <label for="seriesSummary">Series Sumary</label>
+                  <textarea required="required" name="seriesSummary" rows="4" class="form-control border-input ckeditor" placeholder="Sumary of series"  required></textarea>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-12">
+              <div class="form-group">
+                  <label for="summaryBook">Book Sumary</label>
+                  <textarea required="required" name="summaryBook" rows="4" class="form-control border-input ckeditor" placeholder="Summary of book" required="required"></textarea>
+              </div>
+          </div>
+      </div>
+
+      <div class="text-center">
+          <input type="submit" class="btn btn-info btn-fill btn-wd" value="Submit" />
+      </div>
+      <div class="clearfix"></div>
+  </form>
+</div>
+    </div>
+        <div class="card-footer small text-muted">
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

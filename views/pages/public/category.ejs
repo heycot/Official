@@ -1,0 +1,142 @@
+<%- include ../../partials/public/header -%>
+        <!--endheader-->
+        <div class="container-fluid">
+            <div class="category-show">
+                <div class="col-xs-12 col-md-8">
+                    <h1>Books by Category : <%=category.mName%></h1>
+                    <div class="category-description">
+                    </div>
+                    <div><b>Books found: <%=bookCount%></b></div>
+                    <div class="col-xs-12 category-books">
+                        <div class="list-normalize col-xs-12">
+                            <%
+                                if(typeof books !== 'undefined' && books.length > 0){
+                                    for(var i = 0; i < books.length; i++){
+                                        var url = '/'+slug.createSlug(books[i].mCatName)+'/'+slug.createSlug(books[i].mName)+'/'+books[i].mId+'.html';
+                                        var avgScore = 0;
+                                        if(books[i].mSumScore != 0 || books[i].mSumVote != 0){
+                                            avgScore = books[i].mSumScore / books[i].mSumVote;
+											if(avgScore != parseInt(avgScore)) {
+												avgScore = avgScore.toFixed(2);
+											}
+                                        }
+                                        
+                            %>
+                            <div class="col-xs-12 col-sm-6 col-lg-4 book-preview-container">
+                                <div class="book-preview">
+                                    <div class="preview-cover">
+                                        <div class="item-cover">
+                                            <div class="image size-ad">
+                                                <a class="link" href="<%=url%>" title="<%=books[i].mName%>">
+                                                <img src="/files/images/<%=books[i].mImage%>" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="preview-info">
+                                        <div class="preview-name">
+                                            <a href="<%=url%>" title="<%=books[i].mName%>"><%=stringUtil.makePreviewCenter(books[i].mName)%></a> </div>
+                                        <div class="preview-author preview-overflow">by <span class="list">
+                                            <a href="/author/<%=slug.createSlug(books[i].mAuthor)%>" title=""><%=stringUtil.makePreviewAuthorCenter(books[i].mAuthor)%></a></span></div>
+                                        <div class="preview-rate">
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <b><%=avgScore %></b> / 10 </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                            <%}}%>
+                            
+                            
+                        </div>
+                        <%
+                            if(typeof sumPage !== 'undefined' && sumPage > 1){
+                        %>
+                        <div class="col-xs-12 text-right">
+                            <ul class="pagination">
+                                <%  
+                                    var active = "";
+                                    var disableprev = "";
+                                    var disablenext = "";
+                                    var urlprev = "";
+                                    var urlnext = "";
+                                    var url = "";
+                                    
+                                    var pageStart=1;
+                                    var pageEnd=0;
+                                    
+                                    if(page > 1 && sumPage > 0){
+                                        disableprev = "";
+                                        urlprev = '/category/'+slug.createSlug(category.mName)+'/'+category.mId+'?page='+(page - 1);
+                                    }else{
+                                        disableprev = "disabled";
+                                    }
+                                %>
+ 
+                                <li class="prev <%=disableprev%>"><a href="<%=urlprev%>" data-page="">«</a></li>
+                                <%
+                                    if(page >= 5){
+                                        pageStart = page - offsetPage;
+                                        if(sumPage > page + offsetPage){
+                                            pageEnd = page + offsetPage;
+                                        }else
+                                            if(page < sumPage && page > sumPage - 4){
+                                                pageStart = sumPage - 4;
+                                                pageEnd = sumPage;
+                                            }else{
+                                                pageEnd = sumPage;
+                                            }
+                                        
+                                    }else{
+                                        pageStart = 1;
+                                        if(5 < sumPage){
+                                            pageEnd  = 5;
+                                        }else{
+                                            pageEnd = sumPage;
+                                        }
+                                    }
+                                    for(var i = pageStart; i <= pageEnd; i++){
+                                        url = '/category/'+slug.createSlug(category.mName)+'/'+category.mId+'?page='+i;
+                                        if(page == i){
+                                            active = "active";
+                                        }else{
+                                            active = "";
+                                        }
+                                    
+                                %>
+                                <li class="<%=active%>"><a href="<%=url%>" data-page="<%=i%>"><%=i%></a></li>
+                                <%}
+                                    if(page < sumPage && sumPage > 1){
+                                        disablenext = "";
+                                        urlnext = '/category/'+slug.createSlug(category.mName)+'/'+category.mId+'?page='+(parseInt(page) + 1);
+                                    }else{
+                                        disablenext = "disabled";
+                                    }
+                                    
+                                %>
+                                
+                                <li class="next <%=disablenext%>"><a href="<%=urlnext%>" data-page="">»</a></li>
+                                
+                            </ul>
+                        </div>
+                        <%}%>
+                    </div>
+
+                    <div class="col-xs-12 xb-series-list">
+                        <h2>Free book series</h2>
+                        <%
+                            if(typeof listSeries !== 'undefined' && listSeries.length > 0){
+                                for(var i = 0; i < listSeries.length; i++){
+                                var name = slug.createSlug(listSeries[i].mName);
+                        %>
+                        <div class="series-list-element col-sm-6"><a href="/series/<%=name%>/<%=listSeries[i].mId%>" title=""><%=listSeries[i].mName%></a></div>
+                        <%}}%>
+                    </div>
+                </div>
+                <!--rightbar-->
+                <%- include ../../partials/public/right-bar -%>
+                <!--endrightbar-->
+            </div>
+        </div>
+    </div>
+<%- include ../../partials/public/footer -%>
+    

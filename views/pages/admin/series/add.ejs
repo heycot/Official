@@ -1,0 +1,85 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fa fa-fw fa-code"></i>
+            New Series
+          </div>
+          <% if(typeof msg !== 'undefined'){%>
+              <h4 id="msg" style="display:none"><%= msg%></h4>
+          <%}else{%>
+              <h4 id="msg" style="display:none"></h4>
+          <%}%>
+          <script type="text/javascript">
+          	var msg = $('#msg').html();
+          	if(msg == "erradd"){
+          		swal ( "Oops" , "Can't add series" ,  "error" );
+          	}
+            if(msg == "errnull"){
+          		swal ( "Oops" , "Name and summary of Series not null" ,  "error" );
+          	}
+            if(msg == "errnamelength"){
+          		swal ( "Oops" , "maxlength of name series is 50" ,  "error" );
+          	}
+            if(msg == "errsummarylength"){
+          		swal ( "Oops" , "maxlength of summary is 1000" ,  "error" );
+          	}
+            if(msg == "errexists"){
+          		swal ( "Oops" , "This series is existed" ,  "error" );
+          	}
+          </script>
+          <%
+            var name = "", summary = "";
+            if(typeof series !== 'undefined' && series !== null){
+                name = series.getMName();
+                summary = series.getMSummary();
+            }
+          %>
+          <div class="card-body">
+              <form id="add-post" action="/admin/series/add" method="POST" >
+              	<div class="form-group">
+	              	<label>Name</label>
+	              	<input class="form-control" id="txtname" type="text" name="name" value="<%= name%>" placeholder="Name of category"/>
+              	</div>
+                <div class="form-group">
+	              	<label>Summary</label>
+	              	<input class="form-control" id="txtsummary" type="text" name="summary" value="<%= summary%>" placeholder="Summary of category"/>
+              	</div>
+                <div class="error"></div>
+              	<div>
+              		<input class="btn btn-primary" type="submit" name="submit" value="Add" />
+              	</div>
+              </form>
+
+            <script type="text/javascript">
+      				$(document).ready(function() {
+      					$("#add-post").validate({
+      						rules: {
+      							name: {
+                                    required: true,
+                                    maxlength: 50
+                                },
+                                summary: {
+                                    required: true,
+                                    maxlength: 1000
+                                }
+      						},
+      						messages: {
+      							name:{
+                                    required: "name not null",
+                                    maxlength: "maxlength of name is 50 character"
+                                },
+                                summary: {
+                                    required: "summary not null",
+                                    maxlength: "maxlength of summary is 1000 character"
+                                }
+      						}
+      					});
+      				});
+      			</script>
+          </div>
+        </div>
+      </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

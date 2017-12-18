@@ -1,0 +1,138 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i>
+          Comment Table
+        </div>
+        <%
+         if(msg !== undefined || msg !== ""){ %>
+            <h4 id="msg" style="display:none"><%= msg%></h4>
+            <h4 id="st" style="display:none"><%= st%></h4>
+        <% } %>
+        <script type="text/javascript">
+          var msg = $('#msg').html();
+          var st = $('#st').html();
+          if(msg != ""){
+              swal ( msg , msg , st );
+          }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(document).on('change', '.checkall, .checkitem', function(){
+                    var $_this = $(this);
+                    document.getElementById("deleteall").style.display = "block";
+                    if($_this.hasClass('checkall')){
+                        $('.checkitem').prop('checked', $_this.prop('checked'));
+                    }else{
+                        var $_checkedall = true;
+                        $('.checkitem').each(function(){
+                            if(!$(this).is(':checked')){
+                                $_checkedall = false;
+                            }
+                            $('.checkall').prop('checked', $_checkedall);
+                        });
+                    }
+                    var $_uncheckedall = true;
+                    $('.checkitem').each(function(){
+                        if($(this).is(':checked')){
+                            $_uncheckedall = false;
+                        }
+                        if($_uncheckedall){
+                            document.getElementById("deleteall").style.display = "none";
+                        }else{
+                            document.getElementById("deleteall").style.display = "block";
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="card-body">
+          <div class="table-responsive">
+            <form action="/admin/comment/delete"  method="post">
+                <input style="display: none; margin-left: 10px; margin-bottom: 10px; color: red" id="deleteall" type="submit" value="Delete">
+                <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th><input style="display: block" type="checkbox" class="checkall"></th>
+                      <th>User created</th>
+                      <th>Book </th>
+                      <th>Creat At</th>
+                      <th>Content</th>
+                      <th>Status</th>
+                      <th width="10%">Service</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%
+                    if(typeof comments !== 'undefined' &&  comments.length > 0){
+                    for(var i = 0; i < comments.length; i++){
+                  %>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="item" value="<%= comments[i].mId%>," class="checkitem" id="chkitem">
+                     </td>
+                      <td><%= comments[i].mUsername%></td>
+                      <td><%= comments[i].mBookName%></td>
+                      <td><%=comments[i].mCreateAt.getDate() %>/<%=comments[i].mCreateAt.getMonth() + 1%>/<%=comments[i].mCreateAt.getFullYear() %></td>
+                      <td><%= comments[i].mContent%></td>
+                      <td style="width: 2%; text-align: center">
+                        <%
+                          if(comments[i].mStatus == 0) {
+                        %>
+                        <img src="/admin/images/deactive.gif" id="active-<%=comments[i].mId%>" onclick="checkActive(<%=comments[i].mId%>);" />
+                        <%}%>
+                        <%if(comments[i].mStatus == 1) {%>
+                            <img src="/admin/images/active.gif" id="active-<%=comments[i].mId%>" onclick="checkActive(<%=comments[i].mId%>);" />
+                        <%}%>
+                      </td>
+                      <td>
+                        <a style="display:block" href="/admin/comment/delete/?id=<%= comments[i].mId%>" onclick="return confirm('Do you want delete this category?')"><i class="fa fa-trash"></i>Xóa</a>
+                      </td>
+                    </tr>
+                  <%}}else {%>
+                      <div style='color: red'>does not have any comment </div>
+                 <%  }
+                  %>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th><input style="display: block" type="checkbox" class="checkall"></th>
+                      <th>User created</th>
+                      <th>Book </th>
+                      <th>Creat At</th>
+                      <th>Content</th>
+                      <th>Status</th>
+                      <th width="10%">Service</th>
+                    </tr>
+                  </tfoot>
+                </table>
+            </form>
+          </div>
+        </div>
+        <div class="card-footer small text-muted">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    var socket = io("/admin/comment");
+    socket.on("index", function(data) {
+        var id = data.id;
+        var path = data.path;
+        $('#active-'+id).attr('src', path);
+    })
+    var message;
+    function checkActive(id) {
+      var data = $("#active-"+id).attr("src").split("/");
+      var name = data.pop();
+      if(name == "active.gif")
+          message = 1;
+      else
+          message = 0;
+      socket.emit("index", {id, message});
+    }
+  </script>
+  <%- include ../../../partials/admin/footer -%>

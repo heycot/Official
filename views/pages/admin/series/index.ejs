@@ -1,0 +1,112 @@
+<%- include ../../../partials/admin/dashboard -%>
+<div class="content-wrapper py-3">
+  <div class="container-fluid">
+    <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i>
+          Series Table
+        </div>
+        <%
+         if(msg !== undefined || msg !== ""){ %>
+            <h4 id="msg" style="display:none"><%= msg%></h4>
+            <h4 id="st" style="display:none"><%= st%></h4>
+        <% } %>
+        <script type="text/javascript">
+          var msg = $('#msg').html();
+          var st = $('#st').html();
+          if(msg != ""){
+              swal ( msg , msg , st );
+          }
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(document).on('change', '.checkall, .checkitem', function(){
+                    var $_this = $(this);
+
+                    if($_this.hasClass('checkall')){
+                        $('.checkitem').prop('checked', $_this.prop('checked'));
+                    }else{
+                        var $_checkedall = true;
+                        $('.checkitem').each(function(){
+                            if(!$(this).is(':checked')){
+                                $_checkedall = false;
+                            }
+                            $('.checkall').prop('checked', $_checkedall);
+                        });
+                    }
+
+                    var $_uncheckedall = true;
+                    $('.checkitem').each(function(){
+                        if($(this).is(':checked')){
+                            $_uncheckedall = false;
+                        }
+                        if($_uncheckedall){
+                            document.getElementById("deleteall").style.display = "none";
+                        }else{
+                            document.getElementById("deleteall").style.display = "block";
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="card-body">
+          <div class="table-responsive">
+              <form action="/admin/series/delete"  method="post">
+                  <input style="display: none; margin-left: 10px; margin-bottom: 10px; color: red" id="deleteall" type="submit" value="Delete">
+                  <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th width="3%"><input style="display: block" type="checkbox" class="checkall"></th>
+                      <th>Name</th>
+                      <th>Summary</th>
+                      <th>Date Creat</th>
+                      <th>Date Update</th>
+                      <th width="10%">Service</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <%
+                    if(typeof listSeries !== 'undefined' &&  listSeries.length > 0){
+                    for(var i = 0; i < listSeries.length; i++){
+                        
+                  %>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="item" value="<%= listSeries[i].mId%>" class="checkitem" id="chkitem">
+                     </td>
+                      <td>
+                        <a href="/admin/category/edit/<%= listSeries[i].mId%>"><%= listSeries[i].mName%></a>
+                      </td>
+                      <td><%= stringUtil.makePreviewSerieAdmin(listSeries[i].mSummary)%></td>
+                      <td><%= listSeries[i].mCreateAt%></td>
+                      <td><%= listSeries[i].mUpdateAt%></td>
+                      <td>
+                        <a style="display:block" href="/admin/series/edit/?id=<%= listSeries[i].mId%>"><i class="fa fa-edit"></i>Sửa</a>
+                        <a style="display:block" href="/admin/series/delete/?id=<%= listSeries[i].mId%>" onclick="return confirm('Do you want delete this category?')"><i class="fa fa-trash"></i>Xóa</a>
+                      </td>
+                    </tr>
+                  <%}}else {%>
+                      <div style='color: red'>does not have any series </div>
+                 <%  }
+                  %>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th width="3%"><input style="display: block" type="checkbox" class="checkall"></th>
+                      <th>Name</th>
+                      <th>Summary</th>
+                      <th>Date Creat</th>
+                      <th>Date Update</th>
+                      <th>Service</th>
+                    </tr>
+                  </tfoot>
+                </table>
+            </form>
+          </div>
+        <div class="card-footer small text-muted">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include ../../../partials/admin/footer -%>

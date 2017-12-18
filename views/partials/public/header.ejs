@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Free Books Online</title>
+    <meta name="google-site-verification" content="qy_TdFTUQs7EJ2djifBmnKRjSqKnur5lRCShQeD0-60">
+
+    <meta property="og:site_name" content="Read Any Book">
+    <script src="/admin/vendor/jquery/jquery.min.js"></script>
+    <script src="/admin/vendor/jquery/jquery.validate.min.js"></script>
+    <link type="image/x-icon" href="/favicon.ico" rel="shortcut icon">
+    <link href="https://www.readanybook.com/genre/fiction-17" rel="canonical">
+    <link href="/public/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/files/images/logo.jpg" type="image/x-icon">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style>
+        .navbar-inverse{background-color:#264f6c;border-color:#264f6c}
+        .navbar-inverse .navbar-nav>li>a {
+            color: white;
+        }
+        .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus,
+        .navbar-inverse .navbar-nav>.open>a:hover{background-color: #264f6c}
+        .rating-stars ul {
+          list-style-type:none;
+          padding:0;
+
+          -moz-user-select:none;
+          -webkit-user-select:none;
+        }
+        .rating-stars ul > li.star {
+          display:inline-block;
+
+        }
+
+        /* Idle State of the stars */
+        .rating-stars ul > li.star > i.glyphicon {
+          font-size:1.37em;
+          color:#ccc;
+        }
+
+        /* Hover state of the stars */
+        .rating-stars ul > li.star.hover > i.glyphicon {
+          color:#FFCC36;
+        }
+
+        /* Selected state of the stars */
+        .rating-stars ul > li.star.selected > i.glyphicon {
+          color:#FF912C;
+        }
+        .heart{
+          margin-top: 5px;
+          font-size:1.3em;
+          color:#ccc;
+        }
+        .heart.selected > i.glyphicon{
+            color:#ff0b0b;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="wrap">
+		<!--header-->
+        <nav class="navbar navbar-inverse navbar-blue">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle menu-open" data-toggle="collapse" data-target="#navbar-blue-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <button type="button" class="search-line-close navbar-toggle">
+                        <span class="glyphicon glyphicon glyphicon-remove"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">
+                        <img class="visible-xs" style="margin: 4px 0 0 0; width: 74px; height:auto;" src="/public/images/1.png" >
+                        <img class="visible-sm" style="width: 125px; margin: -5px 0 0 30px;" src="/public/images/1.png" >
+                        <img class="visible-md visible-lg" style="width: 180px; height:70px" src="/public/images/logo.jpg" alt="">
+                    </a>
+                    <div style="margin-top:30px" class="search-line" data-url="">
+                        <form action="/search" method="get" class="form-group">
+                            <div class="input-group">
+                                <input name="s" placeholder="Title or author" class="form-control" value="">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn">
+                                        <span class="hidden-xs hidden-sm">Search</span>
+                                        <span class="glyphicon glyphicon-search visible-xs visible-sm"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="clear"></div>
+                </div>
+                <div style="margin-top:25px" id="navbar-blue-collapse" class="collapse navbar-collapse">
+                    <ul class="navbar-nav navbar-right nav">
+
+                        <% if(typeof userLogin == 'undefined') {%>
+                            <li><a href="/login" title="Login">Login</a></li>
+                            <li><a href="/signup" title="Signup">Signup</a></li>
+                        <%} else {%>
+                            <li>
+                                <a href="/addbook" title="Add book">
+                                    <span class="glyphicon glyphicon-book book-add-icon">
+                                    <span class="book-add-icon-back"></span>
+                                    <span class="glyphicon glyphicon-menu-hamburger book-add-icon-inner"></span>
+                                    <span class="glyphicon glyphicon-plus book-add-icon-inner"></span>
+                                    </span>
+                                    <span class="book-add-text textable">Add book</span>
+                                    <span class="clear"></span>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle xb-login-toggle-button" data-toggle="dropdown"><%= userLogin.mFullname %><span class="caret"></span></a>
+                                <ul class="xb-login-inner dropdown-menu">
+
+                                    <li>
+                                        <a href="/logout" title="Logout" data-method="post">Logout</a>
+                                    </li>
+                                    <li>
+                                        <a href="/collection" title="collection">Collection</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>

@@ -1,0 +1,75 @@
+
+      <%- include ../.././partials/public/header -%>
+      <div class="container-fluid">
+      <div class="book-add">
+      <div class="col-xs-12 col-md-8">
+            <h1>Add book</h1>
+            <%if(typeof msg)  {%>
+                <h4 style="color: green; font-weight: bold"><%=msg %></h4>
+            <%}%>
+            <form role="form" action="" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="RQbfbXV0U1AWW0hXAyZtuSpIlXCna01KOZKO73ZY">
+                    <div class="row">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                                <label>Book Name</label>
+                                  <input type="text" name="bookName" class="form-control border-input" placeholder="Enter book name" required minlength="10" maxlength="100">
+                              </div>
+                          </div>
+                          <div class="col-md-6" id="divCol">
+                                <div class="form-group" id="categories">
+                                    <label>Categories</label>
+                                    <select name="categoryId" id="categoryId" class="form-control border-input" required>
+                                          <option value="">No Category</option>
+                                          <%categories.forEach(function(item) {%>
+                                            <option value="<%=item.mId%>"><%=item.mName%></option>
+                                          <%});%>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-12">
+                              <div class="form-group">
+                                  <label for="author">Author</label>
+                                  <input type="text" name="author" class="form-control border-input" placeholder="Enter author" required minlength="10" maxlength="100">
+                              </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Image</label>
+                                    <input type="file" name="picture" accept="image/*" class="form-control" placeholder="Choose image" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>PDF</label>
+                                    <input type="file" name="pdf" accept="application/pdf" class="form-control" placeholder="Choose PDF File" required/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="summaryBook">Book Sumary</label>
+                                    <textarea name="summaryBook" rows="4" class="form-control border-input ckeditor" placeholder="Summary of book" minlength="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <input type="submit" class="btn btn-info btn-fill btn-wd" value="Submit" />
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                    </div>
+                      <%- include ../.././partials/public/right-bar -%>
+                </div>
+            </div>
+              <%- include ../.././partials/public/footer -%>
+        

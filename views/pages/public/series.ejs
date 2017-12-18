@@ -1,0 +1,65 @@
+<%- include ../../partials/public/header -%>
+		<div class="container-fluid">
+		    <div class="series-show">
+		        <div class="col-xs-12 col-md-8">
+		            <h1><%=series.mName%></h1>
+
+		            <div class="col-xs-12">
+						<%=series.mSummary%>
+					</div>
+					
+		            <div class="col-xs-12 xb-books-series-list">
+						<%
+							if(typeof books !== 'undefined' && books.length > 0){
+								for(var i = 0; i < books.length; i++){
+									var url = '/'+slug.createSlug(books[i].mCatName)+'/'+slug.createSlug(books[i].mName)+'/'+books[i].mId+'.html';
+									var avgScore = 0;
+									if(books[i].mSumScore != 0 || books[i].mSumVote != 0){
+										avgScore = books[i].mSumScore / books[i].mSumVote;
+										if(avgScore != parseInt(avgScore)) {
+											avgScore = avgScore.toFixed(2);
+										}
+									}
+									
+						%>
+						<div class="col-xs-12 col-sm-6 col-md-4 book-preview-container">
+		                    <div class="book-preview">
+		                        <div class="preview-cover">
+		                            <div class="item-cover">
+		                                <div class="image size-ad">
+		                                    <a class="link" href="<%=url%>" title="<%=books[i].mName%>">
+		                                    <img src="/files/images/<%=books[i].mImage%>" alt=""></a>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="preview-info">
+		                            <div class="preview-name">
+		                                <a href="<%=url%>" title="<%=books[i].mName%>"><%=stringUtil.makePreviewSerie(books[i].mName)%></a> </div>
+		                            
+		                            <div class="preview-rate">
+		                                <span class="glyphicon glyphicon-star"></span>
+		                                <b><%=avgScore%></b> / 10 </div>
+		                        </div>
+		                        <div class="clear"></div>
+		                    </div>
+		                </div>
+		                <%}}%>
+		            </div>
+		            <div class="col-xs-12 xb-series-list">
+		                <h2>Free book series</h2>
+		                <%
+                            if(typeof listSeries !== 'undefined' && listSeries.length > 0){
+                                for(var i = 0; i < listSeries.length; i++){
+                                var name = slug.createSlug(listSeries[i].mName);
+                        %>
+                        <div class="series-list-element col-sm-6"><a href="/series/<%=name%>/<%=listSeries[i].mId%>" title=""><%=listSeries[i].mName%></a></div>
+                        <%}}%>
+		            </div>
+		        </div>
+
+		        <%- include ../../partials/public/right-bar -%>
+		    </div>
+		</div>
+	</div>
+<%- include ../../partials/public/footer -%>
+    

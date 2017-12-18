@@ -1,0 +1,65 @@
+				<div class="col-xs-12 col-md-4">
+        
+					<div class="col-xs-12">
+						<div class="categories-block">
+							<div class="header-text">
+								<h2>All Category:</h2></div>
+							<div class="items">
+								<ul>
+									<%
+										if(typeof categories !== 'undefined'){
+											for(var i = 0; i < categories.length; i++){
+									%>
+									<li class="genre-item">
+										<a href="/category/<%= slug.createSlug(categories[i].mName)%>/<%= categories[i].mId%>"><%= categories[i].mName%></a>
+									</li>
+									<%}}%>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-xs-12 right-book-list ">
+						<h2>Top Rate</h2>
+						<div class="list-normalize">
+							<%
+                                if(typeof booksTopRate !== 'undefined' && booksTopRate.length > 0){
+                                    for(var i = 0; i < booksTopRate.length; i++){
+                                        var url = '/'+slug.createSlug(booksTopRate[i].mCatName)+'/'+slug.createSlug(booksTopRate[i].mName)+'/'+booksTopRate[i].mId+'.html';
+                                        var avgScore = 0;
+                                        if(booksTopRate[i].mSumScore != 0 || booksTopRate[i].mSumVote != 0){
+											avgScore = booksTopRate[i].mSumScore / booksTopRate[i].mSumVote;
+											if(avgScore != parseInt(avgScore)) {
+												avgScore = avgScore.toFixed(2);
+											}
+                                        }
+                                        
+                            %>
+							<div class="book-preview-container col-xs-12 col-sm-6 col-md-12" style="height: 96px;">
+								<div class="book-preview">
+									<div class="preview-cover">
+										<div class="item-cover">
+											<div class="image size-ad">
+												<a class="link" href="<%=url%>" title="<%=booksTopRate[i].mName%>">
+													<img src="/files/images/<%=booksTopRate[i].mImage%>" alt="" class="shadow-sm">
+												</a>
+											</div>
+										</div>
+									</div>
+									<div class="preview-info">
+										<div class="preview-name">
+											<a href="<%=url%>" title="<%=booksTopRate[i].mName%>"><%=stringUtil.makePreviewLeft(booksTopRate[i].mName)%></a> </div>
+										<div class="preview-author preview-overflow">by <span class="list">
+											<a href="/author/<%=slug.createSlug(booksTopRate[i].mAuthor)%>" title=""><%=stringUtil.makePreviewAuthorLeft(booksTopRate[i].mAuthor)%></a></span></div>
+										<div class="preview-rate">
+											<span class="glyphicon glyphicon-star"></span>
+											<b><%=avgScore%></b> / 10 </div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+							<%}}%>
+						</div>
+					</div>
+
+				</div>

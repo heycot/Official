@@ -1,0 +1,82 @@
+    <%- include ../../../partials/admin/dashboard -%>
+      <div class="content-wrapper py-3">
+        <div class="container-fluid">
+          <div class="card mb-3">
+              <div class="card-header">
+                <i class="fa fa-table"></i>
+                  Detail book
+              </div>
+              <div class="row">
+                  <div class="col-md-3" style="display: block;">
+                      <div class="form-group" style="position: static;">
+                          <label>ID</label>
+                          <input class="form-control" type="text" value="<%=data.mId%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Vote</label>
+                          <input class="form-control" type="text" value="<%=data.mSumVote%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Score</label>
+                          <input class="form-control" type="text" value="<%=data.mSumScore%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Average</label>
+                          <input class="form-control" type="text" value="<%=data.mAvgScore%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>User</label>
+                          <input class="form-control" type="text" value="<%=data.mUserName%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Date Create</label>
+                          <input class="form-control" type="text" value="<%=data.mCreateAt%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Image</label>
+                          <%if(data.mImage == 0) {%>
+                            <img src="/admin/images/no-image.png" alt="">
+                          <%}%>
+                          <%if(data.mImage != 0) {%>
+                            <img src="/files/images/<%=data.mImage%>" style="width:300px; height:200px" alt="">
+                          <%}%>
+                      </div>
+                  </div>
+                  <div class="col-md-8" style="display: block;">
+                      <div class="form-group" style="position: static;">
+                          <label>Name</label>
+                          <input class="form-control" type="text" value="<%=data.mName%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Author</label>
+                          <input class="form-control" type="text" value="<%=data.mAuthor%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Category</label>
+                          <input class="form-control" type="text" value="<%=data.mCatName%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>Series</label>
+                          <input class="form-control" type="text" value="<%=data.mSeriesName%>" disabled>
+                      </div>
+                      <div class="form-group" style="position: static;">
+                          <label>File Name</label>
+                          <input class="form-control" type="text" value="<%=data.mFileName%>" disabled>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4" style="display: block;">
+                    <div class="form-group" style="position: static;">
+                        <label>Sumary</label>
+                        <textarea name="name" rows="8" cols="100" disabled><%=data.mSummary%></textarea>
+                    </div>
+                  </div>
+                </div>
+          </div>
+              <div class="card-footer small text-muted">
+              </div>
+            </div>
+          </div>
+        </div>
+        <%- include ../../../partials/admin/footer -%>
